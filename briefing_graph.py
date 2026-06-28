@@ -109,10 +109,24 @@ def collect_stock_news_node(state: BriefingState) -> dict:
     out = ""
     for item in state["portfolio"]:
         out += f"### ■ {item['name']}\n\n"
-        results = safe_news(f"{item['name']} 주가", 2)
+
+        # 쿼리 실패 시 다른 키워드로 재시도
+        fallback_queries = [
+            f"{item['name']} 주가",
+            f"{item['name']} 주식",
+            f"{item['name']}",
+        ]
+
+        results = []
+        for query in fallback_queries:
+            results = safe_news(query, 2)
+            if results:
+                break
+            time.sleep(1)
+
         if results:
             for r in results:
-                out += f"🔹 **[{r['title']}]({r.get('url','')})**\n\n   {r.get('body','')}\n\n"
+                out += f"🔹 **[{r['title']}]({r.get('url', '')})**\n\n   {r.get('body', '')}\n\n"
         else:
             out += "(뉴스를 불러오지 못했습니다)\n\n"
         time.sleep(1)
