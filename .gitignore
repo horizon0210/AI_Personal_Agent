@@ -1,0 +1,15 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+portfolio.json
+.streamlit/secrets.toml
+
+# Virtual environments
+.venv
+
+# 환경변수 (API 키)
+.env

@@ -1,0 +1,7 @@
+streamlit
+yfinance
+langchain-openai
+duckduckgo-search
+langgraph
+python-dotenv
+openai
