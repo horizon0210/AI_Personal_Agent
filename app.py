@@ -68,9 +68,10 @@ st.title("📈 AI 주식 투자 브리핑 에이전트")
 st.caption(f"오늘 날짜 · {datetime.now():%Y-%m-%d (%A)}")
 
 if st.button("🚀 오늘의 브리핑 생성", type="primary", use_container_width=True):
-    with st.spinner("데이터 수집 → 뉴스 분석 → 조언 생성 중..."):
+    with st.spinner("데이터 수집 → 뉴스 분석 → AI 에이전트 분석 중..."):
         result = run_briefing(st.session_state.portfolio)
 
+    # 시장 지수
     st.subheader("📊 주요 시장 지수")
     cols = st.columns(len(result["indices"]))
     for col, r in zip(cols, result["indices"]):
@@ -79,6 +80,7 @@ if st.button("🚀 오늘의 브리핑 생성", type="primary", use_container_wi
         else:
             col.metric(r["name"], "N/A", "수집 실패")
 
+    # 보유 종목
     st.subheader("💼 내 보유 종목")
     cols = st.columns(len(result["prices"]))
     for col, r in zip(cols, result["prices"]):
@@ -87,12 +89,26 @@ if st.button("🚀 오늘의 브리핑 생성", type="primary", use_container_wi
         else:
             col.metric(r["name"], "N/A", "수집 실패")
 
-    t1, t2, t3 = st.tabs(["📰 전체 시황 뉴스", "📰 내 종목 뉴스", "💡 종목별 조언"])
+    st.divider()
+
+    # 탭 5개
+    t1, t2, t3, t4, t5 = st.tabs([
+        "📰 시황 뉴스",
+        "📰 종목 뉴스",
+        "📡 Signal Agent",
+        "📊 Portfolio Agent",
+        "⚡ Advisor Agent",
+    ])
     with t1:
         st.markdown(result["market_news"])
     with t2:
         st.markdown(result["stock_news"])
     with t3:
-        st.markdown(result["advice"])
+        st.markdown(result["signal"])
+    with t4:
+        st.markdown(result["portfolio_analysis"])
+    with t5:
+        st.markdown(result["action_plan"])
+
 else:
     st.info("⬅️ 왼쪽에서 포트폴리오를 확인하고, 위 **'오늘의 브리핑 생성'** 버튼을 눌러주세요.")
