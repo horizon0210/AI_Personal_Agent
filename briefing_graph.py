@@ -334,6 +334,15 @@ def run_briefing(portfolio: List[dict]) -> BriefingState:
     init_state = {
         "portfolio": portfolio,
         "today": datetime.now().strftime("%Y년 %m월 %d일"),
+        # 아래 키들 초기화 추가
+        "indices": [],
+        "prices": [],
+        "market_news": "",
+        "stock_news": "",
+        "signal": "",
+        "portfolio_analysis": "",
+        "action_plan": "",
+        "report": "",
     }
     return app.invoke(init_state)
 
